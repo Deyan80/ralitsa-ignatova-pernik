@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Ралица Игнатова — Кандидат за Народен Представител · Прогресивна България">
+<meta property="og:description" content="Не обещавам чудеса. Поемам отговорност. И няма да изчезна след изборите. Бюлетина №21, преференция 106 · Перник">
+<meta property="og:image" content="ralitsa.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<title>Ралица Игнатова · Прогресивна България · Перник</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Nunito+Sans:wght@200;300;400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  /* Прогресивна България — зелено */
+  --green:       #2e7d46;
+  --green-light: #4aa864;
+  --green-pale:  #c8e6d0;
+  --green-dark:  #1a5430;
+  --green-muted: rgba(46,125,70,0.18);
+
+  --gold:        #c9a84c;
+  --gold-light:  #e0c070;
+
+  --bg:          #06100a;
+  --bg-2:        #0b1a10;
+  --bg-3:        #0f2016;
+  --bg-card:     #091410;
+
+  --text:        #eef5ef;
+  --text-soft:   #cddfd1;
+  --text-muted:  rgba(238,245,239,0.48);
+
+  --border:      rgba(46,125,70,0.25);
+  --border-soft: rgba(46,125,70,0.1);
+  --nav-bg:      rgba(6,16,10,0.95);
+  --shadow:      0 24px 80px rgba(0,0,0,0.8);
+}
+
+html.light {
+  --bg:          #f4f9f5;
+  --bg-2:        #e8f3ec;
+  --bg-3:        #daeee1;
+  --bg-card:     #ffffff;
+  --text:        #0d2015;
+  --text-soft:   #1e3d28;
+  --text-muted:  rgba(13,32,21,0.52);
+  --border:      rgba(30,100,55,0.22);
+  --border-soft: rgba(30,100,55,0.1);
+  --nav-bg:      rgba(244,249,245,0.96);
+  --green:       #1e6435;
+  --green-light: #2e8048;
+  --green-dark:  #0e3a1e;
+  --green-muted: rgba(30,100,55,0.1);
+  --shadow:      0 24px 80px rgba(0,0,0,0.1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Nunito Sans', sans-serif;
+  overflow-x: hidden;
+  transition: background 0.5s, color 0.5s;
+}
+
+/* grain */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 9997;
+  pointer-events: none; opacity: 0.022;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
+
+/* reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 0.12s; }
+.d2 { transition-delay: 0.24s; }
+.d3 { transition-delay: 0.36s; }
+.d4 { transition-delay: 0.48s; }
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(30px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ── CURSOR ── */
+@media (pointer: coarse) { .cur, .cur-ring { display: none; } }
+.cur {
+  position: fixed; width: 8px; height: 8px;
+  background: var(--green); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: width .2s, height .2s;
+  mix-blend-mode: exclusion;
+}
+.cur-ring {
+  position: fixed; width: 34px; height: 34px;
+  border: 1px solid rgba(46,125,70,0.55);
+  border-radius: 50%; pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%); transition: all .12s ease;
+}
+
+/* ── CONTROLS ── */
+.controls {
+  position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+  z-index: 200; display: flex; gap: 8px;
+}
+.ctrl-btn {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 8px; letter-spacing: 3px; font-weight: 600;
+  color: var(--green); background: var(--bg-2);
+  border: 1px solid var(--border);
+  padding: 9px 18px; cursor: pointer;
+  transition: all .3s; border-radius: 40px;
+}
+.ctrl-btn:hover { background: var(--green); color: #fff; }
+@media (pointer: fine) { .ctrl-btn { cursor: none; } }
+
+/* ── MUSIC ── */
+.music-bar {
+  position: fixed; top: 80px; right: 24px; z-index: 150;
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg-2); border: 1px solid var(--border);
+  padding: 10px 18px; border-radius: 40px;
+  transition: background .5s;
+}
+.music-btn {
+  background: none; border: none; color: var(--green);
+  font-size: 16px; cursor: pointer;
+  display: flex; align-items: center;
+}
+@media (pointer: fine) { .music-btn { cursor: none; } }
+.music-label {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 7px; letter-spacing: 3px; color: var(--text-muted); font-weight: 600;
+}
+.music-waves { display: flex; gap: 3px; align-items: flex-end; height: 14px; }
+.music-waves span {
+  display: block; width: 2px;
+  background: var(--green); border-radius: 2px;
+  animation: wave 1s ease-in-out infinite; opacity: 0;
+}
+.music-waves span:nth-child(1) { animation-delay:0s; height:5px; }
+.music-waves span:nth-child(2) { animation-delay:.15s; height:10px; }
+.music-waves span:nth-child(3) { animation-delay:.3s; height:14px; }
+.music-waves span:nth-child(4) { animation-delay:.15s; height:10px; }
+.music-waves.playing span { opacity: 1; }
+@keyframes wave { 0%,100%{transform:scaleY(.3)} 50%{transform:scaleY(1)} }
+@media (max-width: 700px) { .music-bar { top: auto; bottom: 70px; right: 12px; padding: 8px 14px; } }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 60px;
+  background: var(--nav-bg); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-soft);
+  transition: background .5s;
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; letter-spacing: 4px; font-style: italic;
+  color: var(--green-light); text-decoration: none;
+}
+.nav-badge {
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-bullet {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--green); display: inline-block;
+  box-shadow: 0 0 10px var(--green);
+}
+.nav-num {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 8px; letter-spacing: 3px; font-weight: 700;
+  color: var(--gold); background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 5px 12px; border-radius: 40px;
+}
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 8px; letter-spacing: 3px; font-weight: 600;
+  color: var(--text-muted); text-decoration: none;
+  transition: color .3s;
+}
+.nav-links a:hover { color: var(--green); }
+@media (max-width: 900px) {
+  nav { padding: 12px 20px; flex-wrap: wrap; gap: 8px; }
+  .nav-links { display: none; }
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: flex-end; overflow: hidden;
+}
+.hero-photo {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center 15%; z-index: 0;
+}
+.hero-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(
+    110deg,
+    rgba(6,16,10,0.97) 0%,
+    rgba(6,16,10,0.7) 50%,
+    rgba(6,16,10,0.08) 100%
+  );
+  transition: background .5s;
+}
+html.light .hero-overlay {
+  background: linear-gradient(
+    110deg,
+    rgba(244,249,245,0.97) 0%,
+    rgba(244,249,245,0.75) 50%,
+    rgba(244,249,245,0.05) 100%
+  );
+}
+.hero-fade {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 300px; z-index: 2;
+  background: linear-gradient(0deg, var(--bg), transparent);
+  transition: background .5s;
+}
+.hero-content {
+  position: relative; z-index: 3;
+  padding: 160px 80px 120px;
+  max-width: 820px;
+}
+
+/* Party strip top */
+.party-strip {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--green); padding: 7px 20px;
+  border-radius: 4px; margin-bottom: 22px;
+  animation: fadeUp 0.8s ease 0.1s both;
+}
+.party-strip-text {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 9px; letter-spacing: 4px; font-weight: 700;
+  color: #fff;
+}
+
+.hero-eyebrow {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 8px; letter-spacing: 7px; font-weight: 600;
+  color: var(--green-light); margin-bottom: 18px;
+  animation: fadeUp 0.9s ease 0.2s both;
+}
+.hero-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(52px, 9vw, 122px);
+  font-weight: 900; line-height: .88;
+  color: var(--text); margin-bottom: 16px;
+  animation: fadeUp 1s ease 0.35s both;
+}
+.hero-name em { font-style: italic; color: var(--green-light); }
+.hero-district {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18px, 2.5vw, 28px);
+  font-style: italic; color: var(--gold-light); letter-spacing: 5px;
+  margin-bottom: 14px; animation: fadeUp 1s ease 0.5s both;
+}
+.hero-sub {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 9px; letter-spacing: 4px; font-weight: 300;
+  color: var(--text-muted); margin-bottom: 36px;
+  animation: fadeUp 1s ease 0.62s both;
+}
+.hero-divider {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 28px; animation: fadeUp 1s ease 0.75s both;
+}
+.hero-divider::before {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--green), transparent);
+}
+.hero-gem { color: var(--green-light); font-size: 10px; }
+
+/* Big ballot number */
+.ballot-box {
+  display: inline-flex; flex-direction: column; align-items: center;
+  background: linear-gradient(135deg, var(--green-dark), var(--green));
+  border: 2px solid var(--green-light);
+  border-radius: 12px; padding: 14px 28px; margin-bottom: 28px;
+  box-shadow: 0 0 40px rgba(46,125,70,0.4);
+  animation: fadeUp 1s ease 0.85s both;
+}
+.ballot-label {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 7px; letter-spacing: 4px; font-weight: 700;
+  color: rgba(255,255,255,0.7); margin-bottom: 4px;
+}
+.ballot-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px; font-weight: 900; color: #fff; line-height: 1;
+}
+.ballot-pref {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 8px; letter-spacing: 3px; font-weight: 600;
+  color: var(--gold-light); margin-top: 6px;
+}
+
+.hero-motto {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(17px, 2.2vw, 26px);
+  font-style: italic; line-height: 1.55;
+  color: var(--text-soft);
+  border-left: 3px solid var(--green);
+  padding-left: 20px; margin-bottom: 10px;
+  animation: fadeUp 1s ease 1s both;
+}
+
+.scroll-arrow {
+  position: absolute; bottom: 32px; left: 50%;
+  transform: translateX(-50%); z-index: 5;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  animation: fadeUp 1s ease 1.5s both;
+}
+.scroll-arrow span {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 7px; letter-spacing: 4px; color: var(--green); opacity: .4;
+}
+.arrow-line {
+  width: 1px; height: 48px;
+  background: linear-gradient(180deg, transparent, var(--green));
+  animation: pulse-down 2s ease-in-out infinite;
+}
+@keyframes pulse-down { 0%,100%{opacity:0;transform:translateY(-8px)} 50%{opacity:1;transform:translateY(0)} }
+
+@media (max-width: 700px) {
+  .hero-content { padding: 100px 24px 90px; }
+  .hero-overlay {
+    background: linear-gradient(180deg, rgba(6,16,10,0.35) 0%, rgba(6,16,10,0.95) 60%, rgba(6,16,10,1) 100%) !important;
+  }
+  html.light .hero-overlay {
+    background: linear-gradient(180deg, rgba(244,249,245,0.2) 0%, rgba(244,249,245,0.95) 60%, rgba(244,249,245,1) 100%) !important;
+  }
+}
+
+/* ── TICKER ── */
+.ticker-wrap {
+  overflow: hidden;
+  background: linear-gradient(90deg, var(--green-dark), var(--green), var(--green-dark));
+  padding: 12px 0;
+}
+.ticker { display: flex; width: max-content; animation: scroll 45s linear infinite; }
+.ticker span {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 8px; letter-spacing: 5px; font-weight: 700;
+  color: rgba(255,255,255,0.92); padding: 0 28px;
+}
+.ticker .dot { color: rgba(255,255,255,0.35); padding: 0 4px; }
+@keyframes scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── SECTION BASE ── */
+.section { position: relative; padding: 110px 80px; overflow: hidden; transition: background .5s; }
+.section-inner { max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
+@media (max-width: 900px) { .section { padding: 70px 28px; } }
+@media (max-width: 600px) { .section { padding: 56px 18px; } }
+.eyebrow {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 7px; letter-spacing: 6px; font-weight: 700;
+  color: var(--green); opacity: .75; display: block; margin-bottom: 14px;
+}
+.big-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(38px, 6.5vw, 82px);
+  line-height: .9; color: var(--text); margin-bottom: 50px;
+}
+.big-title em { color: var(--green-light); font-style: italic; }
+.body-text {
+  font-size: clamp(15px, 1.5vw, 17px); font-weight: 300;
+  line-height: 1.9; color: var(--text-soft);
+}
+.body-text p + p { margin-top: 18px; }
+
+/* ── ABOUT ── */
+.about-bg { background: var(--bg); }
+.about-grid { display: grid; grid-template-columns: 1fr 1.8fr; gap: 80px; }
+@media (max-width: 820px) { .about-grid { grid-template-columns: 1fr; gap: 28px; } }
+.about-sticky { position: sticky; top: 100px; height: fit-content; }
+@media (max-width: 820px) { .about-sticky { position: static; } }
+.about-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 140px; line-height: 1;
+  color: var(--green); opacity: .05; margin-bottom: -18px;
+}
+.pullquote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18px, 2.2vw, 26px); font-style: italic;
+  line-height: 1.6; color: var(--green-light);
+  border-left: 3px solid var(--green);
+  padding-left: 22px; margin: 30px 0;
+}
+
+/* Skills grid */
+.skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
+@media (max-width: 500px) { .skills-grid { grid-template-columns: 1fr; } }
+.skill-item {
+  background: var(--green-muted);
+  border: 1px solid var(--border);
+  border-radius: 8px; padding: 16px 18px;
+}
+.skill-icon { font-size: 18px; margin-bottom: 8px; display: block; }
+.skill-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px; color: var(--text); margin-bottom: 4px; font-weight: 700;
+}
+.skill-sub {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 11px; color: var(--text-muted); font-weight: 300; line-height: 1.5;
+}
+
+/* ── MOTTO ── */
+.motto-bg {
+  background: var(--bg-2); text-align: center; padding: 140px 80px;
+  position: relative;
+}
+.motto-bg::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(46,125,70,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.mega-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3.5vw, 50px);
+  font-style: italic; line-height: 1.45;
+  color: var(--text); margin-bottom: 16px; position: relative;
+}
+.mega-quote em { color: var(--green-light); }
+.mega-quote-line {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 3vw, 44px);
+  font-style: italic; color: var(--text); margin-bottom: 10px;
+}
+.mega-quote-line em { color: var(--green-light); }
+.quote-sig {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 7px; letter-spacing: 5px; font-weight: 700;
+  color: var(--green); opacity: .6; margin-top: 28px; display: block;
+}
+@media (max-width: 700px) { .motto-bg { padding: 80px 20px; } }
+
+/* ── PROFILE CARDS ── */
+.cards-bg { background: var(--bg-3); }
+.cards-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 2px; margin-top: 60px;
+}
+@media (max-width: 900px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 550px) { .cards-grid { grid-template-columns: 1fr; } }
+.profile-card {
+  background: var(--bg-card);
+  padding: 40px 30px; position: relative; overflow: hidden;
+  transition: background .4s;
+  border-bottom: 2px solid transparent;
+}
+.profile-card:hover { border-bottom-color: var(--green); }
+.profile-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--green), transparent);
+  transform: scaleX(0); transform-origin: center;
+  transition: transform .5s;
+}
+.profile-card:hover::before { transform: scaleX(1); }
+.card-icon { font-size: 28px; margin-bottom: 14px; display: block; }
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; color: var(--text); margin-bottom: 10px; line-height: 1.2;
+}
+.card-desc {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px; line-height: 1.75; color: var(--text-muted); font-weight: 300;
+}
+.card-tag {
+  margin-top: 16px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 8px; letter-spacing: 2px; color: var(--green); font-weight: 700;
+}
+
+/* ── CONTACT ── */
+.contact-bg { background: var(--bg); }
+.contact-inner { max-width: 700px; text-align: center; margin: 0 auto; }
+.contact-link {
+  display: inline-flex; align-items: center; gap: 14px;
+  background: linear-gradient(135deg, var(--green-dark), var(--green));
+  color: #fff; text-decoration: none;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 9px; letter-spacing: 4px; font-weight: 700;
+  padding: 18px 40px; border-radius: 50px;
+  box-shadow: 0 0 40px rgba(46,125,70,0.4);
+  transition: transform .3s, box-shadow .3s;
+  margin-top: 40px;
+}
+.contact-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 60px rgba(46,125,70,0.6);
+}
+.contact-sub {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 12px; color: var(--text-muted); font-weight: 300; margin-top: 18px;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bg); padding: 60px 80px 80px;
+  border-top: 1px solid var(--border-soft); transition: background .5s;
+}
+.footer-inner {
+  max-width: 1280px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 24px;
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; letter-spacing: 4px; color: var(--green-light);
+  font-style: italic;
+}
+.footer-copy {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 7px; letter-spacing: 3px; color: var(--text-muted); opacity: .5;
+}
+.footer-party {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 8px; letter-spacing: 3px; font-weight: 700;
+  color: var(--green); opacity: .7;
+}
+@media (max-width: 700px) {
+  footer { padding: 48px 18px 80px; }
+  .footer-inner { flex-direction: column; align-items: center; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="ring"></div>
+
+<audio id="bgMusic" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<div class="music-bar" id="musicBar">
+  <button class="music-btn" id="musicBtn" onclick="toggleMusic()" aria-label="Пусни музика">▶</button>
+  <span class="music-label" id="musicLabel" data-bg="МУЗИКА" data-en="MUSIC">МУЗИКА</span>
+  <div class="music-waves" id="musicWaves">
+    <span></span><span></span><span></span><span></span>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()">
+    <span id="themeLbl">☀ СВЕТЛА</span>
+  </button>
+  <button class="ctrl-btn" id="langBtn" onclick="toggleLang()">EN</button>
+</div>
+
+<nav>
+  <a href="#" class="nav-logo">Ралица Игнатова</a>
+  <div class="nav-badge">
+    <span class="nav-bullet"></span>
+    <span class="nav-num" data-bg="БЮЛЕТИНА №21 · ПРЕФЕРЕНЦИЯ 106" data-en="BALLOT #21 · PREFERENCE 106">БЮЛЕТИНА №21 · ПРЕФЕРЕНЦИЯ 106</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about" data-bg="ЗА МЕН" data-en="ABOUT">ЗА МЕН</a></li>
+    <li><a href="#profile" data-bg="ПРОФИЛ" data-en="PROFILE">ПРОФИЛ</a></li>
+    <li><a href="#contact" data-bg="КОНТАКТ" data-en="CONTACT">КОНТАКТ</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <img class="hero-photo" src="ralitsa.jpg" alt="Ралица Игнатова — Кандидат за Народен Представител">
+  <div class="hero-overlay"></div>
+  <div class="hero-fade"></div>
+  <div class="hero-content">
+    <div class="party-strip">
+      <span class="party-strip-text" data-bg="🌿 ПРОГРЕСИВНА БЪЛГАРИЯ · ИЗБОРИ 19 АПРИЛ 2025" data-en="🌿 PROGRESSIVE BULGARIA · ELECTIONS 19 APRIL 2025">🌿 ПРОГРЕСИВНА БЪЛГАРИЯ · ИЗБОРИ 19 АПРИЛ 2025</span>
+    </div>
+    <div class="hero-eyebrow" data-bg="КАНДИДАТ ЗА НАРОДЕН ПРЕДСТАВИТЕЛ · РАЙОН ПЕРНИК" data-en="CANDIDATE FOR MEMBER OF PARLIAMENT · PERNIK DISTRICT">КАНДИДАТ ЗА НАРОДЕН ПРЕДСТАВИТЕЛ · РАЙОН ПЕРНИК</div>
+    <div class="hero-name">
+      <em data-bg="Ралица" data-en="Ralitsa">Ралица</em><br>
+      <span data-bg="Игнатова" data-en="Ignatova">Игнатова</span>
+    </div>
+    <div class="hero-district" data-bg="Перник · Прогресивна България" data-en="Pernik · Progressive Bulgaria">Перник · Прогресивна България</div>
+    <div class="hero-sub" data-bg="ОТГОВОРНОСТ · ОПИТ · АНГАЖИРАНОСТ · ДЕЙСТВИЕ" data-en="RESPONSIBILITY · EXPERIENCE · COMMITMENT · ACTION">ОТГОВОРНОСТ · ОПИТ · АНГАЖИРАНОСТ · ДЕЙСТВИЕ</div>
+
+    <div class="ballot-box">
+      <span class="ballot-label" data-bg="БЮЛЕТИНА №" data-en="BALLOT #">БЮЛЕТИНА №</span>
+      <span class="ballot-num">21</span>
+      <span class="ballot-pref" data-bg="✦ ПРЕФЕРЕНЦИЯ 106 ✦" data-en="✦ PREFERENCE 106 ✦">✦ ПРЕФЕРЕНЦИЯ 106 ✦</span>
+    </div>
+
+    <div class="hero-motto" data-bg="„Не обещавам чудеса. Поемам отговорност. И няма да изчезна след изборите."" data-en="«I don't promise miracles. I take responsibility. And I will not disappear after the elections.»">„Не обещавам чудеса. Поемам отговорност. И няма да изчезна след изборите."</div>
+  </div>
+  <div class="scroll-arrow">
+    <span data-bg="НАУЧИ ПОВЕЧЕ" data-en="LEARN MORE">НАУЧИ ПОВЕЧЕ</span>
+    <div class="arrow-line"></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span data-bg="РАЛИЦА ИГНАТОВА" data-en="RALITSA IGNATOVA">РАЛИЦА ИГНАТОВА</span><span class="dot">✦</span>
+    <span data-bg="ПРОГРЕСИВНА БЪЛГАРИЯ" data-en="PROGRESSIVE BULGARIA">ПРОГРЕСИВНА БЪЛГАРИЯ</span><span class="dot">✦</span>
+    <span data-bg="БЮЛЕТИНА №21" data-en="BALLOT #21">БЮЛЕТИНА №21</span><span class="dot">✦</span>
+    <span data-bg="ПРЕФЕРЕНЦИЯ 106" data-en="PREFERENCE 106">ПРЕФЕРЕНЦИЯ 106</span><span class="dot">✦</span>
+    <span data-bg="РАЙОН ПЕРНИК" data-en="PERNIK DISTRICT">РАЙОН ПЕРНИК</span><span class="dot">✦</span>
+    <span data-bg="19 АПРИЛ 2025" data-en="19 APRIL 2025">19 АПРИЛ 2025</span><span class="dot">✦</span>
+    <span data-bg="ПОЕМАМ ОТГОВОРНОСТ" data-en="I TAKE RESPONSIBILITY">ПОЕМАМ ОТГОВОРНОСТ</span><span class="dot">✦</span>
+    <span data-bg="РАЛИЦА ИГНАТОВА" data-en="RALITSA IGNATOVA">РАЛИЦА ИГНАТОВА</span><span class="dot">✦</span>
+    <span data-bg="ПРОГРЕСИВНА БЪЛГАРИЯ" data-en="PROGRESSIVE BULGARIA">ПРОГРЕСИВНА БЪЛГАРИЯ</span><span class="dot">✦</span>
+    <span data-bg="БЮЛЕТИНА №21" data-en="BALLOT #21">БЮЛЕТИНА №21</span><span class="dot">✦</span>
+    <span data-bg="ПРЕФЕРЕНЦИЯ 106" data-en="PREFERENCE 106">PREFERENCE 106</span><span class="dot">✦</span>
+    <span data-bg="РАЙОН ПЕРНИК" data-en="PERNIK DISTRICT">PERNIK DISTRICT</span><span class="dot">✦</span>
+    <span data-bg="19 АПРИЛ 2025" data-en="19 APRIL 2025">19 APRIL 2025</span><span class="dot">✦</span>
+    <span data-bg="ПОЕМАМ ОТГОВОРНОСТ" data-en="I TAKE RESPONSIBILITY">I TAKE RESPONSIBILITY</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="section about-bg" id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-sticky reveal">
+        <div class="about-num">01</div>
+        <span class="eyebrow" data-bg="— ЗА МЕН" data-en="— ABOUT ME">— ЗА МЕН</span>
+      </div>
+      <div>
+        <h2 class="big-title reveal" data-bg-html="ЖЕНА С<br><em>ОТГОВОРНОСТ</em>" data-en-html="A WOMAN OF<br><em>RESPONSIBILITY</em>">ЖЕНА С<br><em>ОТГОВОРНОСТ</em></h2>
+        <div class="body-text">
+          <p class="reveal d1"
+            data-bg="Ралица Игнатова е кандидат за народен представител от листата на Прогресивна България за парламентарните избори на 19 април — от района на Перник. Жена с доказан професионален опит, социална чувствителност и ясно кредо: да служи, а не само да присъства."
+            data-en="Ralitsa Ignatova is a candidate for Member of Parliament from the Progressive Bulgaria list for the parliamentary elections on 19 April — from the Pernik district. A woman with proven professional experience, social sensitivity and a clear credo: to serve, not merely to be present.">
+            Ралица Игнатова е кандидат за народен представител от листата на Прогресивна България за парламентарните избори на 19 април — от района на Перник. Жена с доказан професионален опит, социална чувствителност и ясно кредо: да служи, а не само да присъства.
+          </p>
+
+          <p class="pullquote reveal d2"
+            data-bg="„Не обещавам чудеса. Поемам отговорност. И няма да изчезна след изборите.""
+            data-en="«I don't promise miracles. I take responsibility. And I will not disappear after the elections.»">
+            „Не обещавам чудеса. Поемам отговорност. И няма да изчезна след изборите."
+          </p>
+
+          <p class="reveal d2"
+            data-bg="С над 10 години опит в управлението на човешки ресурси и бизнес администрация, с образование в областта на счетоводството, финансите и корпоративното управление, Ралица познава добре реалността на хората — техните нужди, предизвикателства и мечти."
+            data-en="With over 10 years of experience in human resources management and business administration, with education in accounting, finance and corporate governance, Ralitsa knows the reality of people well — their needs, challenges and dreams.">
+            С над 10 години опит в управлението на човешки ресурси и бизнес администрация, с образование в областта на счетоводството, финансите и корпоративното управление, Ралица познава добре реалността на хората — техните нужди, предизвикателства и мечти.
+          </p>
+
+          <p class="reveal d3"
+            data-bg="Социалната ангажираност към хора в неравностойно положение е лична кауза — от повече от 15 години. Бивш професионален спортист по хандбал в УСШ „Възраждане" и ЦСКА, тя е наясно какво означава дисциплина, воля и отборна работа."
+            data-en="Social commitment to people in disadvantaged situations is a personal cause — for more than 15 years. A former professional handball player at USS 'Vazrazhdane' and CSKA, she knows what discipline, willpower and teamwork mean.">
+            Социалната ангажираност към хора в неравностойно положение е лична кауза — от повече от 15 години. Бивш професионален спортист по хандбал в УСШ „Възраждане" и ЦСКА, тя е наясно какво означава дисциплина, воля и отборна работа.
+          </p>
+        </div>
+
+        <div class="skills-grid reveal d3">
+          <div class="skill-item">
+            <span class="skill-icon">🎓</span>
+            <div class="skill-title" data-bg="Образование" data-en="Education">Образование</div>
+            <div class="skill-sub" data-bg="Счетоводен контрол · Бизнес и финанси · Корпоративно управление" data-en="Accounting & Control · Business & Finance · Corporate Governance">Счетоводен контрол · Бизнес и финанси · Корпоративно управление</div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-icon">💼</span>
+            <div class="skill-title" data-bg="+10 г. опит" data-en="+10 yrs experience">+10 г. опит</div>
+            <div class="skill-sub" data-bg='„Апарел" ООД — Мениджър HR · Cells4life UK — Тъканна банка' data-en='"Apparel" Ltd — HR Manager · Cells4life UK — Tissue Bank'>"Апарел" ООД — Мениджър HR · Cells4life UK — Тъканна банка</div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-icon">🤝</span>
+            <div class="skill-title" data-bg="+15 г. социална дейност" data-en="+15 yrs social work">+15 г. социална дейност</div>
+            <div class="skill-sub" data-bg="Ангажираност към хора в неравностойно положение — лична кауза и кредо" data-en="Commitment to people in disadvantaged situations — a personal cause and credo">Ангажираност към хора в неравностойно положение — лична кауза и кредо</div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-icon">🤾</span>
+            <div class="skill-title" data-bg="Спорт" data-en="Sport">Спорт</div>
+            <div class="skill-sub" data-bg='Бивш проф. хандбалист · УСШ "Възраждане" · ЦСКА' data-en='Former professional handball player · USS "Vazrazhdane" · CSKA'>Бивш проф. хандбалист · УСШ „Възраждане" · ЦСКА</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOTTO / CENTRAL QUOTE -->
+<section class="section motto-bg">
+  <div class="section-inner" style="max-width:860px;text-align:center;">
+    <div class="mega-quote reveal"
+      data-bg-html="„<em>Не обещавам чудеса.</em>"
+      data-en-html="«<em>I don't promise miracles.</em>»">
+      „<em>Не обещавам чудеса.</em>"
+    </div>
+    <div class="mega-quote-line reveal d1"
+      data-bg-html="„<em>Поемам отговорност.</em>""
+      data-en-html="«<em>I take responsibility.</em>»">
+      „<em>Поемам отговорност.</em>"
+    </div>
+    <div class="mega-quote-line reveal d2"
+      data-bg-html="„<em>И няма да изчезна след изборите.</em>""
+      data-en-html="«<em>And I will not disappear after the elections.</em>»">
+      „<em>И няма да изчезна след изборите.</em>"
+    </div>
+    <div class="quote-sig reveal d3" data-bg="— РАЛИЦА ИГНАТОВА · КАНДИДАТ ЗА НАРОДЕН ПРЕДСТАВИТЕЛ · ПЕРНИК" data-en="— RALITSA IGNATOVA · CANDIDATE FOR MEMBER OF PARLIAMENT · PERNIK">— РАЛИЦА ИГНАТОВА · КАНДИДАТ ЗА НАРОДЕН ПРЕДСТАВИТЕЛ · ПЕРНИК</div>
+  </div>
+</section>
+
+<!-- PROFILE CARDS -->
+<section class="section cards-bg" id="profile">
+  <div class="section-inner">
+    <span class="eyebrow reveal" data-bg="— ЗАЩО РАЛИЦА" data-en="— WHY RALITSA">— ЗАЩО РАЛИЦА</span>
+    <h2 class="big-title reveal d1" data-bg-html="ОПИТ.<br><em>ДЕЙСТВИЕ.</em>" data-en-html="EXPERIENCE.<br><em>ACTION.</em>">ОПИТ.<br><em>ДЕЙСТВИЕ.</em></h2>
+    <div class="cards-grid">
+
+      <div class="profile-card reveal">
+        <span class="card-icon">📊</span>
+        <div class="card-title" data-bg="Финансова грамотност" data-en="Financial Literacy">Финансова грамотност</div>
+        <div class="card-desc" data-bg="Образование в счетоводен контрол, бизнес и финанси и корпоративно управление — знанията, нужни за отговорна публична политика и прозрачност." data-en="Degrees in accounting control, business & finance and corporate governance — the knowledge needed for responsible public policy and transparency.">Образование в счетоводен контрол, бизнес и финанси и корпоративно управление — знанията, нужни за отговорна публична политика и прозрачност.</div>
+        <div class="card-tag" data-bg="🎓 АКАДЕМИЧНА ПОДГОТОВКА" data-en="🎓 ACADEMIC BACKGROUND">🎓 АКАДЕМИЧНА ПОДГОТОВКА</div>
+      </div>
+
+      <div class="profile-card reveal d1">
+        <span class="card-icon">👥</span>
+        <div class="card-title" data-bg="Управление на хора" data-en="People Management">Управление на хора</div>
+        <div class="card-desc" data-bg="Над 10 години мениджърски опит в „Апарел" ООД и Cells4life UK. Работа в международна среда, разбиране на реалните нужди на работещите хора." data-en="Over 10 years of managerial experience at Apparel Ltd and Cells4life UK. Work in an international environment, with real understanding of working people's needs.">Над 10 години мениджърски опит в „Апарел" ООД и Cells4life UK. Работа в международна среда, разбиране на реалните нужди на работещите хора.</div>
+        <div class="card-tag" data-bg="💼 10+ ГОДИНИ ОПИТ" data-en="💼 10+ YEARS EXPERIENCE">💼 10+ ГОДИНИ ОПИТ</div>
+      </div>
+
+      <div class="profile-card reveal d2">
+        <span class="card-icon">❤️</span>
+        <div class="card-title" data-bg="Социална кауза" data-en="Social Cause">Социална кауза</div>
+        <div class="card-desc" data-bg="15+ години активна ангажираност с хора в неравностойно положение. Не като проект, а като начин на живот. Лично кредо — не предизборно обещание." data-en="15+ years of active engagement with disadvantaged people. Not as a project, but as a way of life. A personal credo — not an election promise.">15+ години активна ангажираност с хора в неравностойно положение. Не като проект, а като начин на живот. Лично кредо — не предизборно обещание.</div>
+        <div class="card-tag" data-bg="🤝 15+ ГОДИНИ СОЦИАЛНА ДЕЙНОСТ" data-en="🤝 15+ YEARS SOCIAL WORK">🤝 15+ ГОДИНИ СОЦИАЛНА ДЕЙНОСТ</div>
+      </div>
+
+      <div class="profile-card reveal">
+        <span class="card-icon">🤾</span>
+        <div class="card-title" data-bg="Характер от спорта" data-en="Character from Sport">Характер от спорта</div>
+        <div class="card-desc" data-bg="Бивш професионален хандбалист в УСШ „Възраждане" и ЦСКА. Спортът е научил Ралица на дисциплина, воля, честна игра и работа в екип — ценности, пренесени в политиката." data-en="Former professional handball player at USS Vazrazhdane and CSKA. Sport taught Ralitsa discipline, willpower, fair play and teamwork — values transferred into politics.">Бивш професионален хандбалист в УСШ „Възраждане" и ЦСКА. Спортът е научил Ралица на дисциплина, воля, честна игра и работа в екип — ценности, пренесени в политиката.</div>
+        <div class="card-tag" data-bg="🥇 БИВШ ПРОФ. СПОРТИСТ" data-en="🥇 FORMER PROFESSIONAL ATHLETE">🥇 БИВШ ПРОФ. СПОРТИСТ</div>
+      </div>
+
+      <div class="profile-card reveal d1">
+        <span class="card-icon">🇧🇬</span>
+        <div class="card-title" data-bg="Международен опит" data-en="International Experience">Международен опит</div>
+        <div class="card-desc" data-bg="Работа в Великобритания за Cells4life — тъканна банка за стволови клетки. Разбиране на европейски стандарти, иновации и управление на ниво." data-en="Work in the United Kingdom for Cells4life — a stem cell tissue bank. Understanding of European standards, innovation and high-level management.">Работа в Великобритания за Cells4life — тъканна банка за стволови клетки. Разбиране на европейски стандарти, иновации и управление на ниво.</div>
+        <div class="card-tag" data-bg="🌍 МЕЖДУНАРОДНА ПЕРСПЕКТИВА" data-en="🌍 INTERNATIONAL PERSPECTIVE">🌍 МЕЖДУНАРОДНА ПЕРСПЕКТИВА</div>
+      </div>
+
+      <div class="profile-card reveal d2" style="background:linear-gradient(135deg, rgba(46,125,70,0.08) 0%, var(--bg-card) 100%);">
+        <span class="card-icon">📩</span>
+        <div class="card-title" data-bg="Гласувай с преференция" data-en="Vote with Preference">Гласувай с преференция</div>
+        <div class="card-desc" data-bg="Бюлетина №21, преференция 106. Твоят глас на 19 април носи промяна. Ралица е тук — преди, по време и след изборите." data-en="Ballot #21, preference 106. Your vote on 19 April brings change. Ralitsa is here — before, during and after the elections.">Бюлетина №21, преференция 106. Твоят глас на 19 април носи промяна. Ралица е тук — преди, по време и след изборите.</div>
+        <div class="card-tag" data-bg="✦ БЮЛЕТИНА №21 · ПРЕФЕРЕНЦИЯ 106" data-en="✦ BALLOT #21 · PREFERENCE 106">✦ БЮЛЕТИНА №21 · ПРЕФЕРЕНЦИЯ 106</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact-bg" id="contact">
+  <div class="section-inner">
+    <div class="contact-inner">
+      <span class="eyebrow reveal" data-bg="— СВЪРЖИ СЕ С КАНДИДАТА" data-en="— CONTACT THE CANDIDATE">— СВЪРЖИ СЕ С КАНДИДАТА</span>
+      <h2 class="big-title reveal d1" style="text-align:center;" data-bg-html="ГОВОРИ<br>С <em>РАЛИЦА</em>" data-en-html="TALK<br>TO <em>RALITSA</em>">ГОВОРИ<br>С <em>РАЛИЦА</em></h2>
+      <p class="body-text reveal d2" style="text-align:center;"
+        data-bg="Ралица вярва в прекия диалог с хората. Имаш въпрос, идея или нужда от помощ? Свържи се с нея директно — тя отговаря."
+        data-en="Ralitsa believes in direct dialogue with people. Do you have a question, idea or need help? Contact her directly — she responds.">
+        Ралица вярва в прекия диалог с хората. Имаш въпрос, идея или нужда от помощ? Свържи се с нея директно — тя отговаря.
+      </p>
+      <div style="text-align:center;" class="reveal d3">
+        <a class="contact-link" href="https://www.facebook.com/profile.php?id=61567162947733" target="_blank" rel="noopener">
+          📘&nbsp; <span data-bg="ПРОФИЛ ВЪВ FACEBOOK" data-en="FACEBOOK PROFILE">ПРОФИЛ ВЪВ FACEBOOK</span>
+        </a>
+        <p class="contact-sub" data-bg="Ралица Игнатова · Прогресивна България · Перник · Бюлетина №21 · Преференция 106" data-en="Ralitsa Ignatova · Progressive Bulgaria · Pernik · Ballot #21 · Preference 106">Ралица Игнатова · Прогресивна България · Перник · Бюлетина №21 · Преференция 106</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-logo">Ралица Игнатова</span>
+    <span class="footer-party" data-bg="🌿 ПРОГРЕСИВНА БЪЛГАРИЯ · ПЕРНИК · БЮЛЕТИНА №21 · ПРЕФЕРЕНЦИЯ 106" data-en="🌿 PROGRESSIVE BULGARIA · PERNIK · BALLOT #21 · PREFERENCE 106">🌿 ПРОГРЕСИВНА БЪЛГАРИЯ · ПЕРНИК · БЮЛЕТИНА №21 · ПРЕФЕРЕНЦИЯ 106</span>
+    <span class="footer-copy" data-bg="© 2025 РАЛИЦА ИГНАТОВА · ВСИЧКИ ПРАВА ЗАПАЗЕНИ" data-en="© 2025 RALITSA IGNATOVA · ALL RIGHTS RESERVED">© 2025 РАЛИЦА ИГНАТОВА · ВСИЧКИ ПРАВА ЗАПАЗЕНИ</span>
+  </div>
+</footer>
+
+<script>
+/* ── CURSOR ── */
+const cur = document.getElementById('cur');
+const ring = document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cur.style.left=mx+'px'; cur.style.top=my+'px';
+});
+(function animRing(){
+  rx+=(mx-rx)*.1; ry+=(my-ry)*.1;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+})();
+document.querySelectorAll('a,button,.profile-card,.skill-item,.contact-link').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='16px';cur.style.height='16px';ring.style.width='50px';ring.style.height='50px';});
+  el.addEventListener('mouseleave',()=>{cur.style.width='8px';cur.style.height='8px';ring.style.width='34px';ring.style.height='34px';});
+});
+
+/* ── REVEAL ── */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.07});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+/* ── THEME ── */
+let isDark=true;
+function toggleTheme(){
+  isDark=!isDark;
+  document.documentElement.classList.toggle('light',!isDark);
+  updateThemeLabel();
+}
+function updateThemeLabel(){
+  const lbl=document.getElementById('themeLbl'); if(!lbl) return;
+  const en=document.documentElement.lang==='en';
+  lbl.textContent=isDark?(en?'☀ LIGHT':'☀ СВЕТЛА'):(en?'☾ DARK':'☾ ТЪМНА');
+}
+
+/* ── LANGUAGE ── */
+let isEN=false;
+function toggleLang(){
+  isEN=!isEN;
+  document.getElementById('langBtn').textContent=isEN?'БГ':'EN';
+  document.documentElement.lang=isEN?'en':'bg';
+  document.querySelectorAll('[data-bg][data-en]').forEach(el=>{
+    el.textContent=isEN?el.getAttribute('data-en'):el.getAttribute('data-bg');
+  });
+  document.querySelectorAll('[data-bg-html][data-en-html]').forEach(el=>{
+    el.innerHTML=isEN?el.getAttribute('data-en-html'):el.getAttribute('data-bg-html');
+  });
+  document.title=isEN
+    ?'Ralitsa Ignatova · Progressive Bulgaria · Pernik'
+    :'Ралица Игнатова · Прогресивна България · Перник';
+  updateThemeLabel();
+}
+
+/* ── MUSIC ── */
+const audio=document.getElementById('bgMusic');
+const btn=document.getElementById('musicBtn');
+const waves=document.getElementById('musicWaves');
+let playing=false;
+function toggleMusic(){
+  if(playing){ audio.pause(); btn.textContent='▶'; waves.classList.remove('playing'); }
+  else { audio.play().catch(()=>{}); btn.textContent='⏸'; waves.classList.add('playing'); }
+  playing=!playing;
+}
+</script>
+</body>
+</html>
